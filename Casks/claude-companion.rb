@@ -4,7 +4,7 @@ cask "claude-companion" do
 
   url "https://github.com/vhco-pro/claude-companion/releases/download/v#{version}/ClaudeCompanion-#{version}.zip"
   name "Claude Companion"
-  desc "Menu-bar companion for Claude Code that auto-approves tool calls except a shared blacklist"
+  desc "Menu-bar companion for Claude Code that auto-approves unblacklisted tool calls"
   homepage "https://github.com/vhco-pro/claude-companion"
 
   depends_on macos: :sonoma
