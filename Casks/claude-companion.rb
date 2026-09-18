@@ -15,10 +15,15 @@ cask "claude-companion" do
   # ("cannot be verified - move to Trash"), and the companion-hook copied out of the bundle inherits
   # the quarantine bit and gets killed when Claude Code runs it. Strip quarantine right after install
   # so the app launches and the gate runs without any manual `xattr` step.
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args: ["-dr", "com.apple.quarantine", "#{appdir}/ClaudeCompanion.app"]
+  postflight_steps do
+    run "/usr/bin/xattr",
+        args: ["-dr", "com.apple.quarantine", "{{appdir}}/ClaudeCompanion.app"]
   end
+
+  zap trash: [
+    "~/.config/claude-companion",
+    "~/Library/Preferences/pro.vhco.claude-companion.plist",
+  ]
 
   caveats <<~EOS
     Claude Companion is ad-hoc signed (not notarized). This cask strips the download
@@ -29,9 +34,4 @@ cask "claude-companion" do
     The headline auto-approve gate installs a Claude Code hook from inside the app
     (a button in the popover), then reload your editor window to activate it.
   EOS
-
-  zap trash: [
-    "~/.config/claude-companion",
-    "~/Library/Preferences/pro.vhco.claude-companion.plist",
-  ]
 end
